@@ -1,19 +1,33 @@
 const kebabCase = require("lodash.kebabcase")
 
-/*
-exports.createPages = ({ actions }) => {
+exports.createPages = async ({ graphql, actions }) => {
   const { createPage } = actions
 
-  const filmTemplate = require.resolve('./src/templates/film.js')
+  const filmTemplate = require.resolve("./src/templates/film.js")
 
-  data.forEach(film => {
+  const result = await graphql(`
+    {
+      allStarWarsJson {
+        edges {
+          node {
+            title
+          }
+        }
+      }
+    }
+  `)
+
+  if (result.errors) {
+    console.error(result.errors)
+  }
+
+  result.data.allStarWarsJson.edges.forEach(film => {
     createPage({
-      path: kebabCase(film.title),
+      path: kebabCase(film.node.title),
       component: filmTemplate,
       context: {
-        filmData: film,
-      }
+        title: film.node.title,
+      },
     })
   })
 }
-*/
