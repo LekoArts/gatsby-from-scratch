@@ -1,9 +1,11 @@
 import React from "react"
 
-const Film = () => {
+const Film = ({ pageContext: { filmData } }) => {
   return (
     <React.Fragment>
-      This is a template for a createPages API component
+      <h1>{filmData.title}</h1>
+      <i>By {filmData.director}</i>
+      <p>Released on: {filmData.releaseDate}</p>
     </React.Fragment>
   )
 }
