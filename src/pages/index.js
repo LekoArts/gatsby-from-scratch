@@ -1,8 +1,28 @@
 import React from "react"
-import { Link } from "gatsby"
+import kebabCase from "lodash.kebabcase"
+import { Link, graphql } from "gatsby"
 
-export default () => (
+export default ({ data }) => (
   <div>
-    Hello world! <Link to="/page-2">Page 2</Link>
+    <h1>Film Overview</h1>
+    <ul>
+      {data.allStarWarsJson.edges.map(film => (
+        <li key={film.node.title}>
+          <Link to={kebabCase(film.node.title)}>{film.node.title}</Link>
+        </li>
+      ))}
+    </ul>
   </div>
 )
+
+export const query = graphql`
+  query {
+    allStarWarsJson {
+      edges {
+        node {
+          title
+        }
+      }
+    }
+  }
+`
