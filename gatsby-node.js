@@ -1,3 +1,5 @@
+const kebabCase = require('lodash.kebabcase')
+
 const data = [
   {
     "title": "A New Hope",
@@ -62,3 +64,19 @@ const data = [
     "releaseDate": "2015-12-11"
   }
 ]
+
+exports.createPages = ({ actions }) => {
+  const { createPage } = actions
+
+  const filmTemplate = require.resolve('./src/templates/film.js')
+
+  data.forEach(film => {
+    createPage({
+      path: kebabCase(film.title),
+      component: filmTemplate,
+      context: {
+        filmData: film,
+      }
+    })
+  })
+}
